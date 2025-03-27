@@ -1,0 +1,213 @@
+[
+    {
+
+        "packagePname": "Bali Adventure",
+        "destination": "Bali, Indonesia",
+        "description": "Explore the beaches and culture of Bali...",
+        "price": 899.99,
+        "duration": 7,
+        "availability": true,
+        "discount": {
+            "type": "percentage",
+            "value": 10,
+            "valid_until": {
+                "$date": "2025-03-15T00:00:00.000Z"
+            }
+        },
+        "created_at":  "2025-02-27T12:00:00.000Z",
+        "category": "Couple"
+    },
+    {
+        "packageName": "Enchanting Bali: Beaches, Culture, and Serene Ubud Retreat",
+        "duration": "7 Days / 6 Nights",
+        "overview": "Discover the magic of Bali with our meticulously crafted...",
+        "highlights": [
+            "Thrilling Water Sports",
+            "Iconic Temples",
+            "Nusa Penida's Natural Wonders",
+            "Ubud's Cultural Heart",
+            "Luxurious Accommodations",
+            "Romantic Experiences",
+            "Scenic Views",
+            "Bali Swing Adventure"
+        ],
+        "included": [
+            "Accommodation (Bliss Surfer & Fullmoon Ubud)",
+            "Daily Breakfast",
+            "Private Airport Transfers",
+            "All Tours & Transfers",
+            "English-Speaking Driver/Guide",
+            "Entrance Fees",
+            "Lunch (as indicated)",
+            "Dinner (as indicated)",
+            "Water Sports Activities",
+            "Bounty Sunset Dinner Cruise",
+            "Nusa Penida Tour with Snorkeling",
+            "Floating Breakfast"
+        ],
+        "excluded": [
+            "International Flights",
+            "Tipping",
+            "Personal Expenses",
+            "Travel Insurance"
+        ],
+        "itinerary": [
+            {
+                "day": 1,
+                "date": "2025-02-10",
+                "title": "Arrival in Bali",
+                "description": "Arrival at Ngurah Rai International Airport...",
+                "activities": [
+                    {
+                        "activity": "Airport Transfer",
+                        "details": "Private transfer to Bliss Surfer."
+                    },
+                    {
+                        "activity": "Hotel Check-in",
+                        "details": "Check-in and leisure."
+                    }
+                ]
+            },
+            {
+                "day": 2,
+                "date": "2025-02-11",
+                "title": "Water Sports and Uluwatu Sunset",
+                "description": "Enjoy water sports at Tanjung Benoa followed by Uluwatu Temple tour.",
+                "activities": [
+                    {
+                        "activity": "Water Sports",
+                        "details": "Banana Boat, Jet Ski, Parasailing."
+                    },
+                    {
+                        "activity": "Uluwatu Temple",
+                        "details": "Sunset tour and Kecak dance (optional)."
+                    }
+                ]
+            },
+            {
+                "day": 3,
+                "date": "2025-02-12",
+                "title": "Leisure and Sunset Dinner Cruise",
+                "description": "Leisure time followed by a romantic dinner cruise.",
+                "activities": [
+                    {
+                        "activity": "Leisure Time",
+                        "details": "Relax at the hotel or explore Kuta."
+                    },
+                    {
+                        "activity": "Sunset Dinner Cruise",
+                        "details": "Bounty Dinner Cruise with entertainment."
+                    }
+                ]
+            },
+            {
+                "day": 4,
+                "date": "2025-02-13",
+                "title": "Nusa Penida 4 Beaches Tour",
+                "description": "Explore the stunning beaches of Nusa Penida with snorkeling.",
+                "activities": [
+                    {
+                        "activity": "Nusa Penida Tour",
+                        "details": "Kelingking Bay, Angel Billabong, Broken Bay, Bubu Beach."
+                    },
+                    {
+                        "activity": "Snorkeling",
+                        "details": "Snorkeling at designated spots."
+                    },
+                    {
+                        "activity": "Lunch",
+                        "details": "Lunch at local restaurant."
+                    }
+                ]
+            },
+            {
+                "day": 5,
+                "date": "2025-02-14",
+                "title": "Kintamani, Rice Terraces, and Ubud Transfer",
+                "description": "Visit Kintamani, rice terraces, and transfer to Ubud.",
+                "activities": [
+                    {
+                        "activity": "Tegenungan Waterfall",
+                        "details": "Visit Tegenungan waterfall."
+                    },
+                    {
+                        "activity": "Coffee Plantation",
+                        "details": "Visit coffee plantation."
+                    },
+                    {
+                        "activity": "Kintamani Volcano",
+                        "details": "View of Kintamani volcano."
+                    },
+                    {
+                        "activity": "Tegalalang Rice Terraces",
+                        "details": "Visit rice terraces."
+                    },
+                    {
+                        "activity": "Bali Swing",
+                        "details": "Experience Bali Swing."
+                    },
+                    {
+                        "activity": "Lunch",
+                        "details": "Lunch at local restaurant."
+                    },
+                    {
+                        "activity": "Hotel Transfer",
+                        "details": "Transfer to Fullmoon Ubud."
+                    }
+                ]
+            },
+            {
+                "day": 6,
+                "date": "2025-02-15",
+                "title": "Ubud Exploration",
+                "description": "Explore Ubud with Handara Gate and Ulun Danu Temple.",
+                "activities": [
+                    {
+                        "activity": "Floating Breakfast",
+                        "details": "Enjoy breakfast in the pool."
+                    },
+                    {
+                        "activity": "Handara Gate",
+                        "details": "Visit Handara Gate."
+                    },
+                    {
+                        "activity": "Ulun Danu Temple",
+                        "details": "Visit Ulun Danu Temple."
+                    },
+                    {
+                        "activity": "Wanagiri Hidden Hills",
+                        "details": "Visit Wanagiri Hidden Hills."
+                    }
+                ]
+            },
+            {
+                "day": 7,
+                "date": "2025-02-16",
+                "title": "Departure",
+                "description": "Free time until check out and transfer to airport",
+                "activities": [
+                    {
+                        "activity": "Hotel Check-out",
+                        "details": "Free time then check out at 12:00pm"
+                    },
+                    {
+                        "activity": "Airport Transfer",
+                        "details": "Private transfer to Ngurah Rai Airport."
+                    }
+                ]
+            }
+        ],
+        "price": {
+            "adult": 1200,
+            "child": 900
+        },
+        "images": [
+            "url_to_image1.jpg",
+            "url_to_image2.jpg"
+        ],
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z",
+        "category": "Couple"
+    
+    }
+]

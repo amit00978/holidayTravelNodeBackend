@@ -1,0 +1,29 @@
+{
+  "name": "holidaytravelbackend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "express": "^4.21.2",
+    "mongoose": "^8.13.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "prettier": "^3.5.3"
+  },
+  "description": ""
+}
