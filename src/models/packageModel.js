@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const validator = require('validator');
 const { default: slugify } = require('slugify');
 
 
@@ -26,7 +27,16 @@ const PriceSchema = new mongoose.Schema({
   child: { type: Number, required: [true, 'Tour package must have a child price'] }
 });
 const packageSchema = new mongoose.Schema({
-  packageName: { type: String, required: [true, 'Tour package must have a names'], unique: true, trim: true },
+  packageName:
+   { type: String, 
+    required: [true, 'Tour package must have a names'], 
+    unique: true, 
+    trim: true ,
+    maxlength: [50, 'Tour package name should not exceed 50 characters'] ,
+    minlength: [10, 'Tour package name should not be less than 10 characters'] ,
+    validate:  [validator.isAlpha,"Tour package name should only contain alphabetic characters"]
+  
+  },
   slug: String, 
   destination: { type: String, required: [true, 'Tour package must have a destination'] },
   overview: { type: String },
@@ -40,7 +50,9 @@ const packageSchema = new mongoose.Schema({
   rating: { type: Number },
   duration: { type: Number, required: [true, 'Tour package must have a duration'] }, // Duration in days
   availability: { type: Boolean, default: true },
-  discount: { type: DiscountSchema, default: null }, // Nested discount object
+  discount: { type: DiscountSchema, 
+      default: null,
+}, // Nested discount object
   createdAt: { type: Date, default: Date.now, select: false },// Auto set on creationm
   images: { type: [String], default: [] },
   coverImage: { type: String },
@@ -86,9 +98,6 @@ packageSchema.post('save', function (doc, next) {
   next()
 });
 
-packageSchema.pre('find',function(next){
-
-});
 const Package = mongoose.model('Package', packageSchema);
 module.exports = Package;
 

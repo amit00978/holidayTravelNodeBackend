@@ -10,7 +10,7 @@ const slugify = require('slugify');
 exports.getAllPackages = async (req, res) => {
 
     try {
-        const features = new APIFeatures(Package.find(),req.query).filter().sort().limitFields().paginate()
+        const features = new APIFeatures(Package.find(), req.query).filter().sort().limitFields().paginate()
         const allPackage = await features.query;
         res.status(200).json({
             status: 200,
@@ -56,11 +56,11 @@ exports.createPackage = async (req, res) => {
             message: err
         });
     }
-} 
+}
 
-exports.deletePackage = async  (req, res) => {
+exports.deletePackage = async (req, res) => {
     try {
-        await Package.findByIdAndUpdate(req.params.id,{  "availability": false})
+        await Package.findByIdAndUpdate(req.params.id, { "availability": false })
         res.status(204).json({
             status: 'success',
             data: "Done"
@@ -75,9 +75,9 @@ exports.deletePackage = async  (req, res) => {
 }
 exports.updatePackage = async (req, res) => {
     try {
-        const newPackage = await Package.findByIdAndUpdate(req.params.id,req.body,{
+        const newPackage = await Package.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
-            runValidators:true
+            runValidators: true
         })
         res.status(200).json({
             status: 'success',
@@ -105,7 +105,7 @@ exports.getPackageStats = async (req, res) => {
                 $group: {
                     _id: '$ratingsAverage',
                     avgRating: { $avg: '$ratingsAverage' },
-                    numPackage: { $sum : 1},
+                    numPackage: { $sum: 1 },
                     avgAdultPrice: { $avg: "$price.adult" },
                     avgChildPrice: { $avg: "$price.child" },
                     minAdultPrice: { $min: "$price.adult" },
@@ -113,9 +113,9 @@ exports.getPackageStats = async (req, res) => {
                     minChildPrice: { $min: "$price.child" },
                     maxChildPrice: { $max: "$price.child" }
                 }
-            },{
-                $sort:{
-                    avgAdultPrice:1
+            }, {
+                $sort: {
+                    avgAdultPrice: 1
                 }
             }
         ]);
@@ -134,11 +134,11 @@ exports.getPackageStats = async (req, res) => {
     }
 };
 
-exports.getMonthlyPlan = async (req,res) =>{
+exports.getMonthlyPlan = async (req, res) => {
 
-    try{
-        const year = req.params.year *1 ;
-        const plan =  await Package.aggregate([]);
+    try {
+        const year = req.params.year * 1;
+        const plan = await Package.aggregate([]);
         res.status(200).json({
             status: 'success',
             data: {
@@ -146,7 +146,7 @@ exports.getMonthlyPlan = async (req,res) =>{
             }
         });
 
-    }catch{
+    } catch {
         res.status(400).json({
             status: 'fail',
             message: error.message
