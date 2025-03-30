@@ -1,8 +1,9 @@
 [
     {
 
-        "packageName": "Bali Adventure1212121",
+        "packageName": "Bali Adventure122312121",
         "destination": "Bali, Indonesia", 
+        "ratingsAverage":2.3,
         "description": "Explore the beaches and culture of Bali...",
         "price": {
             "adult": 1200,
@@ -198,8 +199,9 @@
         ]
     },
     {
-        "packageName": "Enchanting Bali: Beaches, Culture, and Serene Ubud Retreat",
+        "packageName": "Enchanting Bali: B232eaches, Culture, and Serene Ubud Retreat",
         "duration": 3,
+        "ratingsAverage":4.3,
         "description":"Arrival at Ngurah Rai International Airport...",
         "destination": "Bali, Indonesia",
         "overview": "Discover the magic of Bali with our meticulously crafted...",
