@@ -6,17 +6,24 @@ const app = require('./src/app')
 
 const DB = process.env.DATABASE_URL.replace('<DB_PASSWORD>',process.env.DATABASE_PASSWORD);
 
+
 mongoose.connect(DB)
   .then(() => {
 
     console.log('Successfully connected to MongoDB');
   })
-  .catch(err => {
-    console.error('Connection error', err);
-  });
-
-
 const port = process.env.PORT
-app.listen(port, () => {
+const server  = app.listen(port, () => {
     console.log(`=======App running on port ${port}...`)
 });
+
+
+process.on('unhandledRejection', (err, promise) => {
+  console.log(err.name,err.message)
+  console.error('UNHANDLED REJECTION! Shutting down...');
+  server.close(() => {
+    console.log('Server closed. Exiting...');
+    process.exit(1);
+  });
+
+})
