@@ -6,10 +6,12 @@ const Package = require('../models/packageModel')
 const APIFeatures = require('../utils/APIFeatures');
 const slugify = require('slugify');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/AppError');
+
 
 exports.getAllPackages = catchAsync(async (req, res,next) => {
 
-        const features = new APIFeatures(Package.find(), req.query).filter().sort().limitFields().paginate()
+        const features = new APIFeatures(Package.find(), req.query).filter().sort().limitFields().paginate();
         const allPackage = await features.query;
         res.status(200).json({
             status: 200,
@@ -19,11 +21,15 @@ exports.getAllPackages = catchAsync(async (req, res,next) => {
 
 exports.getPackage = catchAsync(async (req, res,next) => {
     const package = await Package.findById(req.params.id)
+    if(!package){
+        return next(new AppError(404, `No package found with that ID!`));
+    }
     res.status(200).json({
         status: 200,
         data: package
     })
 });
+
 
 exports.createPackage = catchAsync(async (req, res, next) => {
     const newPackage = await Package.create(req.body)
@@ -36,6 +42,10 @@ exports.createPackage = catchAsync(async (req, res, next) => {
 })
 
 exports.deletePackage = catchAsync(async (req, res, next) => {
+    const package = await Package.findById(req.params.id)
+    if(!package){
+        return next(new AppError(404, `No package found with that ID!`));
+    }
     await Package.findByIdAndUpdate(req.params.id, { "availability": false })
     res.status(204).json({
         status: 'success',
@@ -48,6 +58,9 @@ exports.updatePackage =catchAsync( async (req, res, next) => {
         new: true,
         runValidators: true
     })
+    if(!newPackage){
+        return next(new AppError(404, `No package found with that ID!`));
+    }
     res.status(200).json({
         status: 'success',
         data: {
@@ -58,7 +71,6 @@ exports.updatePackage =catchAsync( async (req, res, next) => {
 });
 
 exports.getPackageStats = catchAsync(async (req, res,next) => {
-    const packages = await Package.find({ ratingsAverage: { $gte: 1.2 } });
     const packageStats = await Package.aggregate([
         {
             $match: { ratingsAverage: { $gte: 0 } }
