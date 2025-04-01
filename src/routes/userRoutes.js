@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router();
 const userController = require('../controllers/userController')
 const authController = require('../controllers/authController');
+const AppError = require('../utils/AppError');
 const fs = require('fs');
 
 
 router.post('/signup', authController.signup);
+router.post('/login', authController.login);
 
 router.route('/')
     .get(userController.getAllUser)
@@ -17,3 +19,4 @@ router.route('/:id')
 
 
  module.exports = router
+

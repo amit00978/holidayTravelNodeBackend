@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password'],
     minlength: 8, // You can adjust the minimum length as needed,
+    select: false // Don't expose the password field in the response
 
   },
   passwordConfirm: {
@@ -62,5 +63,9 @@ userSchema.post ('save', function(doc, next) {
   this.password = undefined; // Remove password field to prevent returning it in the response
   next();
 })
+
+userSchema.methods.comparePassowrd = async function(candidatePassword,userPassword) {
+  return await bcrypt.compare(candidatePassword,userPassword);
+}
 
 module.exports = mongoose.model('User', userSchema);

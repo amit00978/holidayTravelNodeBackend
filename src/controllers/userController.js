@@ -2,6 +2,7 @@
 const User = require('../models/userModal');
 const APIFeatures = require('../utils/APIFeatures');
 const catchAsync = require('../utils/catchAsync');
+
 exports.getAllUser = catchAsync(async (req,res) => {
     const features = new APIFeatures(User.find(), req.query).filter().sort().limitFields().paginate();
     const allUser = await features.query;
