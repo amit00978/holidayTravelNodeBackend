@@ -58,4 +58,9 @@ userSchema.pre('save', async function(next) {
   next(); // Continue to the next middleware or save the document
 });
 
+userSchema.post ('save', function(doc, next) {
+  this.password = undefined; // Remove password field to prevent returning it in the response
+  next();
+})
+
 module.exports = mongoose.model('User', userSchema);
