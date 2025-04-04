@@ -16,6 +16,7 @@ router
     .route('/:id')
     .get(packageController.getPackage)
     .patch(packageController.updatePackage)
-    .delete(packageController.deletePackage);
+    .delete(authController.protect,packageController.deletePackage);
+    // authController.restrictTo('admin')
 
 module.exports = router

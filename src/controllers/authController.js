@@ -10,13 +10,24 @@ const signToken = (id) => {
 }
 exports.signup= catchAsync(async (req, res, next) => {
 
+    const {
+        name='',
+        email='',
+        phone='',
+        password='',
+        passwordConfirm='',
+        passwordChangedAt='',
+        role=''
+      } = req.body;
+
     const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        phone: req.body.phone,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
-        passwordChangedAt : req.body.passwordChangedAt
+        name: name,
+        email: email,
+        phone: phone,
+        password: password,
+        passwordConfirm: passwordConfirm,
+        passwordChangedAt : passwordChangedAt,
+        role: role
     });
     
 
@@ -55,9 +66,7 @@ exports.login = catchAsync(async (req, res,next) => {
     let token;
 
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-        token = req.headers.authorization.split(' ')[1];
-
-        
+        token = req.headers.authorization.split(' ')[1];   
     }
     if(!token){
         return next(new AppError(401,"You are not logged in!. Please log in to get access"))
@@ -73,3 +82,13 @@ exports.login = catchAsync(async (req, res,next) => {
    req.user = freshUser;
     next();
  })
+
+ exports.restrictTo = (...roles) => {
+
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(new AppError(403, 'You do not have permission to perform this action'));
+        }
+        next();
+    };
+ }
