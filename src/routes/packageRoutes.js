@@ -17,6 +17,4 @@ router
     .get(packageController.getPackage)
     .patch(packageController.updatePackage)
     .delete(authController.protect,packageController.deletePackage);
-    // authController.restrictTo('admin')
-
 module.exports = router
