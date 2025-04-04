@@ -8,24 +8,24 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please provide a name'],
     trim: true
   },
-  phone: { type: String, required: false,  default: ""},
+  phone: { type: String, required: false, default: "" },
   email: {
     type: String,
     required: [true, 'Please provide a valid email'],
     unique: true,
     trim: true,
     lowercase: true,
-    validate: [validator.isEmail,"Please provide a valid email"],
+    validate: [validator.isEmail, "Please provide a valid email"],
   },
   photo: {
     type: String,
     required: false // Optional if you don't want to require a photo
   },
-  role: { 
-    type: String, 
-    enum: ['User', 'Admin', 'Travel Agent'], 
-    default: 'User' 
-},
+  role: {
+    type: String,
+    enum: ['User', 'Admin', 'Travel Agent'],
+    default: 'User'
+  },
 
   password: {
     type: String,
@@ -38,12 +38,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: function(v) {
+      validator: function (v) {
         return v === this.password; // Ensures the passwordConfirm matches the password
       },
       message: 'Passwords do not match'
     }
-  }
+  },
+  passwordChangedAt: Date
 }, {
   timestamps: true // This will add createdAt and updatedAt fields
 });
@@ -51,7 +52,7 @@ const userSchema = new mongoose.Schema({
 
 
 // Password encryption middleware
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next(); // Only hash the password if it's being updated
 
   this.password = await bcrypt.hash(this.password, 12); // Hash the password using bcrypt
@@ -59,13 +60,23 @@ userSchema.pre('save', async function(next) {
   next(); // Continue to the next middleware or save the document
 });
 
-userSchema.post ('save', function(doc, next) {
+userSchema.post('save', function (doc, next) {
   this.password = undefined; // Remove password field to prevent returning it in the response
   next();
 })
 
-userSchema.methods.comparePassowrd = async function(candidatePassword,userPassword) {
-  return await bcrypt.compare(candidatePassword,userPassword);
+userSchema.methods.changesPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    return JWTTimestamp < changedTimeStamp
+  }
+
+  // False means not changed
+  return false;
+}
+
+userSchema.methods.comparePassowrd = async function (candidatePassword, userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
 }
 
 module.exports = mongoose.model('User', userSchema);
