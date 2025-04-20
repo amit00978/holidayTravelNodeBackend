@@ -92,3 +92,49 @@ exports.login = catchAsync(async (req, res,next) => {
         next();
     };
  }
+
+
+ exports.forgotPassword = catchAsync(async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return next(new AppError(404, 'No user found with that email'));
+    }
+
+    const resetToken = await user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+
+    const message = `You are receiving this email because you (or someone else) has requested a password reset.
+    Please make a PUT request to: ${resetURL} with your new password in the request body.
+    If you did not make this request, please ignore this email and your password will remain unchanged.`;
+
+    res.status(200).json({
+        status: 'success',
+        message
+    });
+    // sendEmail(user.email, 'Password reset', message);
+    // console.log(message);
+});
+
+
+exports.resetPassword = catchAsync(async (req, res, next) => {  
+    // const resetToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+    // const user = await User.findOne({ resetPasswordToken, resetPasswordExpires: { $gt: Date.now() } });
+
+    // if (!user) {
+    //     return next(new AppError(400, 'Invalid token or token has expired'));
+    // }
+
+    // user.password = req.body.password;
+    // user.passwordConfirm = req.body.passwordConfirm;
+    // user.resetPasswordToken = undefined;
+    // user.resetPasswordExpires = undefined;
+
+    // await user.save();
+
+    // res.status(200).json({
+    //     status: 'success',
+    //     message: 'Password reset successful. You can now log in.'
+    // });
+});

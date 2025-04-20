@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const  crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -44,7 +45,9 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords do not match'
     }
   },
-  passwordChangedAt: Date
+  passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpire : Date
 }, {
   timestamps: true // This will add createdAt and updatedAt fields
 });
@@ -77,6 +80,16 @@ userSchema.methods.changesPasswordAfter = function (JWTTimestamp) {
 
 userSchema.methods.comparePassowrd = async function (candidatePassword, userPassword) {
   return await bcrypt.compare(candidatePassword, userPassword);
+}
+
+userSchema.methods.createPasswordResetToken = async function () {
+const resetToken = crypto.randomBytes(32).toString('hex');
+
+  
+ this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+ this.passwordResetExpire = Date.now()+10*60*1000;
+ console.log("===reset token",resetToken)
+ return resetToken
 }
 
 module.exports = mongoose.model('User', userSchema);
