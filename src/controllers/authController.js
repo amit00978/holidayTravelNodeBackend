@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModal');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const sendEmail = require('../utils/email')
 
 
 const signToken = (id) => {
@@ -108,6 +109,21 @@ exports.login = catchAsync(async (req, res,next) => {
     const message = `You are receiving this email because you (or someone else) has requested a password reset.
     Please make a PUT request to: ${resetURL} with your new password in the request body.
     If you did not make this request, please ignore this email and your password will remain unchanged.`;
+
+    try{
+        await sendEmail({
+            email:req.body.email ,
+            subject:"Reset Password",
+            message:message
+        })
+    }catch(err){
+        console.log("=====err",err)
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+        await user.save({ validateBeforeSave: false });
+        return next(new AppError(500,'There is an error sending the email. Try again later!'))
+    }
+
 
     res.status(200).json({
         status: 'success',
