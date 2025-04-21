@@ -4,6 +4,7 @@ const User = require('../models/userModal');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const sendEmail = require('../utils/email')
+const  crypto = require('crypto')
 
 
 const signToken = (id) => {
@@ -117,7 +118,6 @@ exports.login = catchAsync(async (req, res,next) => {
             message:message
         })
     }catch(err){
-        console.log("=====err",err)
         user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined;
         await user.save({ validateBeforeSave: false });
@@ -135,22 +135,25 @@ exports.login = catchAsync(async (req, res,next) => {
 
 
 exports.resetPassword = catchAsync(async (req, res, next) => {  
-    // const resetToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
-    // const user = await User.findOne({ resetPasswordToken, resetPasswordExpires: { $gt: Date.now() } });
 
-    // if (!user) {
-    //     return next(new AppError(400, 'Invalid token or token has expired'));
-    // }
 
-    // user.password = req.body.password;
-    // user.passwordConfirm = req.body.passwordConfirm;
-    // user.resetPasswordToken = undefined;
-    // user.resetPasswordExpires = undefined;
+    const resetToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+    const user = await User.findOne({ passwordResetToken: resetToken, passwordResetExpire : { $gt: Date.now() } });
 
-    // await user.save();
+    console.log("=====user",user)
+    if (!user) {
+        return next(new AppError(400, 'Invalid token or token has expired'));
+    }
 
-    // res.status(200).json({
-    //     status: 'success',
-    //     message: 'Password reset successful. You can now log in.'
-    // });
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Password reset successful. You can now log in.'
+    });
 });
