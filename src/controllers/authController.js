@@ -157,3 +157,27 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
         message: 'Password reset successful. You can now log in.'
     });
 });
+
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+
+    const currentPassword = req.body.currentPassword
+    const user = req.user
+    const freshUser = await User.findOne({ email: user.email }).select('+password');
+    if (!(await freshUser.comparePassowrd(currentPassword,freshUser.password))) {
+        return next(new AppError(401, 'Incorrect Current password password'));
+    }
+
+    user.password = req.body.newPassword;
+    user.passwordConfirm = req.body.confirmNewPasswordConfirm;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+    res.status(200).json({
+        status: 'success',
+        message: 'Password Change successful. You can now log in.'
+    });
+
+})
+
