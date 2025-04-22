@@ -48,6 +48,11 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpire : Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false
+  }
 }, {
   timestamps: true // This will add createdAt and updatedAt fields
 });
@@ -99,5 +104,26 @@ userSchema.pre('save',function(next){
   this.passwordChangedAt = Date.now()-1000;
   next();
 })
+
+userSchema.pre('find', function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+// You might also want to consider findOneAndUpdate and findOneAndDelete
+userSchema.pre('findOneAndUpdate', function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+userSchema.pre('findOneAndDelete', function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
 
 module.exports = mongoose.model('User', userSchema);

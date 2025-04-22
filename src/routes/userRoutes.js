@@ -12,6 +12,7 @@ router.post('/forgotPassword', authController.forgotPassword);
 router.post('/changePassword', authController.protect,authController.updatePassword);
 router.put('/resetPassword/:token', authController.resetPassword);
 router.patch('/updateMe',authController.protect,userController.updateMe)
+router.delete('/deleteMe',authController.protect,userController.deleteMe)
 
 router.route('/')
     .get(userController.getAllUser)
