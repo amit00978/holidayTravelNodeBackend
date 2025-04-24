@@ -1,9 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit')
 const packageRouter = require('./routes/packageRoutes')
 const userRouter = require('./routes/userRoutes')
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController')
+
 
 const app = express();
 
@@ -11,6 +13,13 @@ if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev'))
 }
 
+const limiter = rateLimit({
+    max:100,
+    windowMs: 60*60*100,
+    message: 'To many requests from this IP'
+})
+
+app.use('/api',limiter);
 app.use(express.json());
 
 app.use('/api/v1/packages',packageRouter)
