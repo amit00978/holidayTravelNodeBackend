@@ -10,7 +10,7 @@ router.route('/monthly-plan/:year').get(packageController.getMonthlyPlan);
 
 router
     .route('/')
-    .get(authController.protect,packageController.getAllPackages)
+    .get(packageController.getAllPackages)
     .post( packageController.createPackage);
 router
     .route('/:id')
