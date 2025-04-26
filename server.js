@@ -5,7 +5,11 @@ dotenv.config({path:'./config.env'});
 const app = require('./src/app')
 
 
-app.use(cors());
+app.use(cors({
+  origin: '*',    // Allow any frontend. (Not safe for production but good for testing)
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+
 process.on('unhandledRejection', (err, promise) => {
   console.log(err.name,err.message);
   console.error('UNHANDLED REJECTION! Shutting down...');
