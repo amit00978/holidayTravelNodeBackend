@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit')
+const cors = require('cors');
 const packageRouter = require('./routes/packageRoutes')
 const userRouter = require('./routes/userRoutes')
 const AppError = require('./utils/AppError');
@@ -8,6 +9,13 @@ const globalErrorHandler = require('./controllers/errorController')
 
 
 const app = express();
+
+app.use(cors({
+    origin: '*',   // Allow any frontend to access
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  }));
+  
 
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev'))

@@ -1,15 +1,8 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const cors = require('cors');
+
 dotenv.config({path:'./config.env'});
 const app = require('./src/app')
-
-
-app.use(cors({
-  origin: '*',   // Allow any frontend to access
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-}));
 
 process.on('unhandledRejection', (err, promise) => {
   console.log(err.name,err.message);
