@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 dotenv.config({path:'./config.env'});
 const app = require('./src/app')
 
+
+app.use(cors());
 process.on('unhandledRejection', (err, promise) => {
   console.log(err.name,err.message);
   console.error('UNHANDLED REJECTION! Shutting down...');
