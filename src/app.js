@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit')
 const cors = require('cors');
+const helmet = require('helmet')
 const packageRouter = require('./routes/packageRoutes')
 const userRouter = require('./routes/userRoutes')
 const AppError = require('./utils/AppError');
@@ -9,6 +10,9 @@ const globalErrorHandler = require('./controllers/errorController')
 
 
 const app = express();
+
+// Set Security Http headers
+app.use(helmet());
 
 app.use(cors({
     origin: '*',   // Allow any frontend to access
@@ -28,7 +32,10 @@ const limiter = rateLimit({
 })
 
 app.use('/api',limiter);
-app.use(express.json());
+
+app.use(express.json({
+    limit:'10kb'
+}));
 
 app.use('/api/v1/packages',packageRouter)
 app.use('/api/v1/users',userRouter)
