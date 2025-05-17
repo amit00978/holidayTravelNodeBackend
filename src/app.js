@@ -10,6 +10,7 @@ const packageRouter = require('./routes/packageRoutes')
 const userRouter = require('./routes/userRoutes')
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController')
+const inquiryRoutes = require('./routes/inquiryRoutes')
 
 
 const app = express();
@@ -50,6 +51,7 @@ app.use(hpp())
 
 app.use('/api/v1/packages',packageRouter)
 app.use('/api/v1/users',userRouter)
+app.use('/api/v1/inquiry',inquiryRoutes)
 
 app.all('*', (req, res,next) => {
     next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
