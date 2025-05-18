@@ -77,7 +77,8 @@ const packageSchema = new mongoose.Schema({
     enum: ['Couple', 'Family', 'Solo', 'Group Travel'],
     required: true
   },
-  countryIncluded: { type: [String], default: [] }
+  countryIncluded: { type: [String], default: [] },
+  bannerImage: { type: String }
 
 });
 
