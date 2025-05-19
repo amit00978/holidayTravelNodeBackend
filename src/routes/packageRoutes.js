@@ -11,10 +11,10 @@ router.route('/monthly-plan/:year').get(packageController.getMonthlyPlan);
 router
     .route('/')
     .get(packageController.getAllPackages)
-    .post( packageController.createPackage);
+    .post(authController.protect,authController.restrictTo('admin'), packageController.createPackage);
 router
     .route('/:id')
     .get(packageController.getPackage)
-    .patch(packageController.updatePackage)
-    .delete(authController.protect,packageController.deletePackage);
+    .patch(authController.protect,authController.restrictTo('admin'),packageController.updatePackage)
+    .delete(authController.protect,authController.restrictTo('admin'),packageController.deletePackage);
 module.exports = router
