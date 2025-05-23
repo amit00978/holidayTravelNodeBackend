@@ -80,7 +80,13 @@ const packageSchema = new mongoose.Schema({
     required: true
   },
   countryIncluded: { type: [String], default: [] },
-  bannerImage: { type: String }
+  bannerImage: { type: String },
+  vendorName: { type: String },
+  packageType: {
+    type: String,
+    enum: ['standard', 'deluxe', 'luxury', 'honeymoon','specialOffer'],
+    required: true
+  }
 
 });
 
