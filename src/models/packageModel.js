@@ -86,6 +86,14 @@ const packageSchema = new mongoose.Schema({
     type: String,
     enum: ['standard', 'deluxe', 'luxury', 'honeymoon','specialOffer'],
     required: true
+  },
+  activityHighlights:{
+    type: [String],
+    default:[]
+  },
+  active:{
+    type:Boolean,
+    default:true
   }
 
 });
