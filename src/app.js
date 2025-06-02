@@ -19,10 +19,10 @@ const app = express();
 app.use(helmet());
 
 app.use(cors({
-    origin: '*',   // Allow any frontend to access
+    origin: 'https://www.holidayntravel.com', // allow your frontend domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-  }));
+    credentials: true
+}));
   
 
 if(process.env.NODE_ENV==='development'){
