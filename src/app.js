@@ -18,12 +18,19 @@ const app = express();
 // Set Security Http headers
 app.use(helmet());
 
+const allowedOrigins = ['https://www.holidayntravel.com', 'https://holidayntravel.com'];
+
 app.use(cors({
-    origin: '*',   // Allow any frontend to access
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-  }));
-  
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev'))
