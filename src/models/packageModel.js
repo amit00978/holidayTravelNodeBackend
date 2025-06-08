@@ -33,7 +33,7 @@ const packageSchema = new mongoose.Schema({
     required: [true, 'Tour package must have a names'], 
     unique: true, 
     trim: true ,
-    maxlength: [50, 'Tour package name should not exceed 50 characters'] ,
+    maxlength: [60, 'Tour package name should not exceed 50 characters'] ,
     minlength: [10, 'Tour package name should not be less than 10 characters'] ,
     
     // validate:  [validator.isAlpha,"Tour package name should only contain alphabetic characters"]

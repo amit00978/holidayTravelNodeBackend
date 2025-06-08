@@ -11,7 +11,7 @@ const userRouter = require('./routes/userRoutes')
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController')
 const inquiryRoutes = require('./routes/inquiryRoutes')
-
+const destinationRoutes = require('./routes/destinationRoutes')
 
 const app = express();
 
@@ -19,6 +19,9 @@ const app = express();
 app.use(helmet());
 
 const allowedOrigins = ['https://www.holidayntravel.com', 'https://holidayntravel.com'];
+if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.push('http://localhost:3000');
+  }
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -59,6 +62,7 @@ app.use(hpp())
 app.use('/api/v1/packages',packageRouter)
 app.use('/api/v1/users',userRouter)
 app.use('/api/v1/inquiry',inquiryRoutes)
+app.use('/api/v1/destionation',destinationRoutes )
 
 app.all('*', (req, res,next) => {
     next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
