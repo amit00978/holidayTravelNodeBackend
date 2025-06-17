@@ -33,7 +33,7 @@ const packageSchema = new mongoose.Schema({
     required: [true, 'Tour package must have a names'], 
     unique: true, 
     trim: true ,
-    maxlength: [60, 'Tour package name should not exceed 50 characters'] ,
+    maxlength: [70, 'Tour package name should not exceed 60 characters'] ,
     minlength: [10, 'Tour package name should not be less than 10 characters'] ,
     
     // validate:  [validator.isAlpha,"Tour package name should only contain alphabetic characters"]
@@ -82,11 +82,11 @@ const packageSchema = new mongoose.Schema({
   countryIncluded: { type: [String], default: [] },
   bannerImage: { type: String },
   vendorName: { type: String },
-  packageType: {
+  packageType: [{
     type: String,
     enum: ['standard', 'deluxe', 'luxury', 'honeymoon','specialOffer'],
     required: true
-  },
+  }],
   activityHighlights:{
     type: [String],
     default:[]

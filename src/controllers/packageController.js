@@ -9,8 +9,12 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 
 
-exports.getAllPackages = catchAsync(async (req, res,next) => {
-
+exports.getAllPackages = catchAsync(async (req, res,next) => {    
+        const { packageType } = req.query;
+        if (packageType) {
+            const typesArray = packageType.split(',');
+            req.query.packageType = { $in: typesArray };
+        }
         const features = new APIFeatures(Package.find(), req.query).filter().sort().limitFields().paginate();
         const allPackage = await features.query;
         res.status(200).json({
