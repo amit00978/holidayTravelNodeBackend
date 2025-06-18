@@ -19,9 +19,9 @@ const app = express();
 app.use(helmet());
 
 const allowedOrigins = ['https://www.holidayntravel.com', 'https://holidayntravel.com'];
-if (process.env.NODE_ENV !== 'production') {
+// if (process.env.NODE_ENV !== 'production') {
     allowedOrigins.push('http://localhost:3000');
-  }
+  // }
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -40,7 +40,7 @@ if(process.env.NODE_ENV==='development'){
 }
 
 const limiter = rateLimit({
-    max:100,
+    max:1000,
     windowMs: 60*60*100,
     message: 'To many requests from this IP'
 })
