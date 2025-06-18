@@ -44,6 +44,7 @@ const limiter = rateLimit({
     windowMs: 60*60*100,
     message: 'To many requests from this IP'
 })
+app.set('trust proxy', 1);
 
 app.use('/api',limiter);
 
