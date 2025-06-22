@@ -24,7 +24,7 @@ exports.getAllPackages = catchAsync(async (req, res,next) => {
 });
 
 exports.getPackage = catchAsync(async (req, res,next) => {
-    const package = await Package.findById(req.params.id)
+    const package = await Package.findOne({ slug:req.params.id })
     if(!package){
         return next(new AppError(404, `No package found with that ID!`));
     }
