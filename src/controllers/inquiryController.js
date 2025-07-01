@@ -10,7 +10,7 @@ exports.submitInquiry = catchAsync(async (req, res, next) => {
     const { name, emailAddress, phoneNumber, message } = req.body
     const newIquiry = await Inquiry.create({ name, emailAddress, phoneNumber, message })
     try {
-        sendEmail({
+        await sendEmail({
             email: 'amit00978@gmail.com',
             subject: 'Inquiry  ' + phoneNumber + " Email "+ emailAddress,
             message: message

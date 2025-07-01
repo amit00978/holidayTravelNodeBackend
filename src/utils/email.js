@@ -11,6 +11,14 @@ const sendEmail = async (options) => {
       pass: process.env.ZOHO_PASS   // app-specific password (if 2FA is enabled)
     }
   });
+  
+    transporter.verify(function(error, success) {
+    if (error) {
+      console.error("🚨 SMTP CONFIGURATION ERROR:", error);
+    } else {
+      console.log("✅ Server is ready to take our messages:", success);
+    }
+  });
 
   const mailOptions = {
     from: `"Holiday Travel" <${process.env.ZOHO_USER}>`, // sender
@@ -22,5 +30,6 @@ const sendEmail = async (options) => {
 
   await transporter.sendMail(mailOptions);
 };
+
 
 module.exports = sendEmail;
