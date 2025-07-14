@@ -12,7 +12,8 @@ const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController')
 const inquiryRoutes = require('./routes/inquiryRoutes')
 const destinationRoutes = require('./routes/destinationRoutes')
-
+const razorpayRoutes = require('./routes/razorpayRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 const app = express();
 
 // Set Security Http headers
@@ -63,7 +64,10 @@ app.use(hpp())
 app.use('/api/v1/packages',packageRouter)
 app.use('/api/v1/users',userRouter)
 app.use('/api/v1/inquiry',inquiryRoutes)
-app.use('/api/v1/destionation',destinationRoutes )
+app.use('/api/v1/destionation',destinationRoutes)
+app.use('/api/v1/razorpay-order',razorpayRoutes)
+app.use('/api/v1/order',orderRoutes)
+
 
 app.all('*', (req, res,next) => {
     next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
