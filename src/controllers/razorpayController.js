@@ -20,10 +20,10 @@ const catchAsync = require('../utils/catchAsync');
     }
 
   const razorpay = new Razorpay({
-    // key_id: 'rzp_live_ABRo8ZHC7U6eXP',
-    // key_secret: 'Q7vLUZ0R4HqQV2KtWO9cNU94',
-        key_id: 'rzp_test_6hDjACICShA0jf',
-        key_secret: 'nCcnf2dHEYE77OboDLJ2lxs9'
+    key_id: 'rzp_live_ABRo8ZHC7U6eXP',
+    key_secret: 'Q7vLUZ0R4HqQV2KtWO9cNU94',
+        // key_id: 'rzp_test_6hDjACICShA0jf',
+        // key_secret: 'nCcnf2dHEYE77OboDLJ2lxs9'
   });
 
   const options = {
