@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords do not match'
     }
   },
+  otp:{
+    type: String,
+    trim:true,
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpire : Date,

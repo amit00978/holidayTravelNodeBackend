@@ -191,3 +191,78 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 })
 
+
+const htmlOTP = (otp)=> `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+    <h2 style="color: #4CAF50;">Your OTP Code</h2>
+    <p>Hello,</p>
+    <p>Use the following One-Time Password (OTP) to complete your authentication. This OTP is valid for <strong>5 minutes</strong>.</p>
+    <div style="font-size: 24px; font-weight: bold; margin: 20px 0; text-align: center; letter-spacing: 5px;">
+      ${otp}
+    </div>
+    <p>If you did not request this, please ignore this email.</p>
+    <hr style="margin: 20px 0;">
+    <p style="font-size: 12px; color: #777;">&copy; ${new Date().getFullYear()} HolidaynTravel. All rights reserved.</p>
+  </div>
+`
+
+
+const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+exports.sendOtp = async (req, res) => {
+    const { email } = req.body;
+    const otpStore = {};
+    if (!email) {
+        return res.status(400).json({ error: "email is required" });
+    }
+
+    const otp = generateOtp();
+    otpStore[email] = otp;
+
+    console.log(`Generated OTP for ${email}: ${otp}`);
+
+     const updatedUser = await User.findOneAndUpdate(
+    { email: email },
+    { otp: otp },
+    { new: true } // return the updated doc
+
+
+  );
+    await sendEmail({
+        email:email ,
+        subject:"Your OTP Code",
+        message:htmlOTP(otp)
+        })
+
+    return res.json({ message: "OTP sent successfully",status: 'success'});
+
+};
+
+
+exports.verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    return res.status(400).json({ error: "email and otp are required" });
+  }
+
+  try {
+    // find user by ID and otp
+    const user = await User.findOne({ email: email, otp: otp });
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    // OPTIONAL: clear OTP field after verification
+    user.otp = undefined; // or null
+    await user.save({ validateBeforeSave: false });
+
+    return res.json({ status: 'success', message: "OTP verified successfully" });
+  } catch (error) {
+    console.error("OTP verification error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
