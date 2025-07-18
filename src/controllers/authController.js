@@ -12,7 +12,7 @@ const signToken = (id) => {
 }
 
 
-const createSendToken = (user,statusCode,res) =>{
+const createSendToken = (user, statusCode, res, message) =>{
     const token = signToken(user._id);
     const cookiesOption = {
         expires: new Date( Date.now() + process.env.JWT_COOKIE_EXPIRES_IN *24*60*60*1000),
@@ -22,9 +22,8 @@ const createSendToken = (user,statusCode,res) =>{
     res.cookie('jwt',token,cookiesOption)
     res.status(statusCode).json({
         status: 'success',
-        message: 'User created successfully',
+        message: message? message: 'User created successfully',
         data: {
-            user : user,
             token
         }
     });
@@ -257,12 +256,23 @@ exports.verifyOtp = async (req, res) => {
     // OPTIONAL: clear OTP field after verification
     user.otp = undefined; // or null
     await user.save({ validateBeforeSave: false });
+    createSendToken(user, 200, res, "OTP verified successfully");   
 
-    return res.json({ status: 'success', message: "OTP verified successfully" });
+    // return res.json({ status: 'success', message: "OTP verified successfully" });
   } catch (error) {
     console.error("OTP verification error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
+exports.getUserMe = async (req,res)=>{
+
+const user = await User.findById(req.user.id).select('-role -createdAt -passwordChangedAt -updatedAt -_id -password');
+
+    res.status(200).json({
+        status: 'success',
+        user: user
+    });
+
+}
 

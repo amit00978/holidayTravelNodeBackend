@@ -8,6 +8,7 @@ const fs = require('fs');
 
 router.post('/otp',authController.sendOtp)
 router.post('/verifyOtp',authController.verifyOtp)
+router.get('/me',authController.protect,authController.getUserMe)
 router.post('/signup',authController.protect,authController.restrictTo('admin'), authController.signup);
 router.post('/login', authController.login);
 router.post('/forgotPassword',authController.protect,authController.restrictTo('admin'),authController.forgotPassword);
