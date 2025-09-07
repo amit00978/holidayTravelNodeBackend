@@ -74,11 +74,15 @@ const packageSchema = new mongoose.Schema({
       message: 'GroupSize should only be provided for Family or Group Travel categories.'
     }
   },
-  category: {
+  itineraryDownloadUrl: {
     type: String,
-    enum: ['Couple', 'Family', 'Solo', 'Group Travel'],
-    required: true
+    required: false, // set to true if always needed
   },
+category: {
+  type: [String], // Array of strings
+  enum: ['Couple', 'Family', 'Solo', 'Group Travel'],
+  required: true
+},
   countryIncluded: { type: [String], default: [] },
   bannerImage: { type: String },
   vendorName: { type: String },

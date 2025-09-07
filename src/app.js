@@ -49,8 +49,9 @@ app.set('trust proxy', 1);
 
 app.use('/api',limiter);
 
+// Increase JSON body parser limit to allow larger payloads (previously 10kb caused 413 errors)
 app.use(express.json({
-    limit:'10kb'
+  limit: '100kb'
 }));
 
 
